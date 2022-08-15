@@ -1,0 +1,30 @@
+.Register{
+  height: auto;
+  width: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register_input{
+  width: 30%;
+  border-radius: 7px;
+  border-color: lightseagreen;
+  margin: auto;
+  margin-bottom: 7px;
+}
+
+form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.forms_button{
+  width: fit-content;
+  margin: auto;
+  border-radius: 5px;
+  border-width: 1px;
+  background-color: lightgreen;
+}
