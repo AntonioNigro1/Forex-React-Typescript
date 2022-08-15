@@ -11,14 +11,9 @@ const defaultUserData = {
 
 export default function Register() {
   const [user, setUser] = useState<User>(defaultUserData);
-  const { _id, name, email, password } = user;
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser((prevState) => ({
-      ...prevState,
-      [e.target.id]: e.target.value,
-    }));
-  };
+  const [name, setName] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,9 +31,9 @@ export default function Register() {
     <div className='Register'>
       <h1>Register new user</h1>
       <form onSubmit={onSubmit}>
-        <input className="register_input" type="text" value={name} onChange={onChange} placeholder="Full name"></input>
-        <input className="register_input" type="email" value={email} onChange={onChange} placeholder="Email"></input>
-        <input className="register_input" type="password" value={password} onChange={onChange} placeholder="Password"></input>
+        <input className="register_input" type="text" value={user.name} onChange={(e) => setUser({ ...user, name: e.target.value })} placeholder="Full name"></input>
+        <input className="register_input" type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} placeholder="Email"></input>
+        <input className="register_input" type="password" value={user.password} onChange={(e) => setUser({ ...user, password: e.target.value })} placeholder="Password"></input>
         <button className='forms_button' type='submit'>Submit</button>
       </form>
     </div>
