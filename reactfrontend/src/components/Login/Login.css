@@ -1,4 +1,4 @@
-.Register{
+.Login{
   height: auto;
   width: auto;
   position: relative;
@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.register_input{
+.login_input{
   width: 30%;
   border-radius: 7px;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.15);

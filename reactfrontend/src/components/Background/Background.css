@@ -12,7 +12,8 @@
   margin: 5px;
   border-radius: 5px;
   border-width: 1px;
-  background-color: rgb(167, 236, 167);
+  background-color: lightgreen;
+  padding: 5px 10px;
 }
 
 .top_img{
