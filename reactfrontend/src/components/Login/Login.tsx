@@ -12,6 +12,10 @@ const defaultUserData = {
 export default function Login() {
   const [user, setUser] = useState<User>(defaultUserData);
 
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(user);
+  }
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -31,10 +35,10 @@ export default function Login() {
     <div className='Login'>
       <h1>Login</h1>
       <form onSubmit={onSubmit}>
-        <input className="login_input" type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} placeholder="Email"></input>
-        <input className="login_input" type="password" value={user.password} onChange={(e) => setUser({ ...user, password: e.target.value })} placeholder="Password"></input>
+        <input className="login_input" type="email" value={user.email} onChange={onChangeHandler} placeholder="Email"></input>
+        <input className="login_input" type="password" value={user.password} onChange={onChangeHandler} placeholder="Password"></input>
         <button className='forms_button' type='submit'>Login</button>
       </form>
-    </div>
+    </div >
   )
 }

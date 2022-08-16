@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Topmenu from './components/Background/Topmenu';
 import Footer from './components/Background/Footer'
-import Register from './components/Register/Register';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +12,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Topmenu></Topmenu>
-    <Register></Register>
     <Footer></Footer>
   </React.StrictMode>
 );
