@@ -1,6 +1,6 @@
 import './Background.css';
 import { useState } from 'react';
-import Register from '../Register/Register';
+import Register from '../Register';
 
 export default function Topmenu() {
   const [component, setComponent] = useState<React.FunctionComponent>(Register);
