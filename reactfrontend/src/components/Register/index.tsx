@@ -1,42 +1,62 @@
-import { useState } from 'react';
+import './styles.css'
+
+import { Component } from 'react';
 import { User } from '../interfaces';
-import './Register.css'
 
-const defaultUserData = {
-  _id: "",
-  name: "",
-  email: "",
-  password: "",
-};
+export class Register extends Component<{}, { name: string, email: string, password: string }> {
+  constructor(props: User) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: ''
+    };
 
-export default function Register() {
-  const [user, setUser] = useState<User>(defaultUserData);
-
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(user);
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ name: e.target.value });
+
+  }
+
+  handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ email: e.target.value });
+
+  }
+
+  handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ password: e.target.value });
+  }
+
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(user)
+      body: JSON.stringify({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      })
     };
 
     fetch("http://localhost:9000/register", requestOptions)
-      .then(response => response)
+      .then(response => response.json)
   };
 
-  return (
-    <div className='Register'>
-      <h1>Register new User</h1>
-      <form onSubmit={onSubmit}>
-        <input className="register_input" type="text" value={user.name} onChange={onChangeHandler} placeholder="Full name"></input>
-        <input className="register_input" type="email" value={user.email} onChange={onChangeHandler} placeholder="Email"></input>
-        <input className="register_input" type="password" value={user.password} onChange={onChangeHandler} placeholder="Password"></input>
-        <button className='forms_button' type='submit'>Register</button>
-      </form>
-    </div>
-  )
+  render() {
+    const { name, email, password } = this.state;
+
+    return (
+      <div className='Register'>
+        <h1>Register new User</h1>
+        <form onSubmit={this.handleSubmit}>
+          <input className="register_input" type="text" value={name} onChange={this.handleChangeName} placeholder="Full name"></input>
+          <input className="register_input" type="email" value={email} onChange={this.handleChangeEmail} placeholder="Email"></input>
+          <input className="register_input" type="password" value={password} onChange={this.handleChangePassword} placeholder="Password"></input>
+          <button className='forms_button' type='submit'>Register</button>
+        </form>
+      </div>
+    )
+  }
 }
