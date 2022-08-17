@@ -14,7 +14,7 @@ export default function Menu() {
   return (
     <>
       <div className='menu'>
-        <img className='top_img' src="/images/topbg.jpg" alt='' />
+
         <button className='menu_button'>Deposit</button>
         <button className='menu_button'>Withdraw</button>
         <button className='menu_button'>Exchange</button>
