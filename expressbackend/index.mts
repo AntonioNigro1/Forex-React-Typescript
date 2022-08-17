@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const http = require('http');
 
+import UserRouter from './app/route/UserRouter';
+
 var app = express();
 
 dotenv.config();
@@ -21,5 +23,7 @@ mongoose.connect(process.env.DB_CONNECT).then(
 app.use(express.json());
 app.use(cors());
 app.use(morgan('tiny'));
+
+app.use('/', UserRouter);
 
 http.createServer(app).listen(9000);
