@@ -26,3 +26,12 @@
   background-color: lightgreen;
   padding: 5px 10px;
 }
+
+.forms_button:hover{
+  cursor: pointer;
+}
+
+.register_res{
+margin: 5px auto;
+color: rgba(0, 0, 0, 0.80);
+}

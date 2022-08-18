@@ -3,7 +3,7 @@ import './styles/global-styles.css';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import Background from './components/Background'
-import Menu from './components/Menu';
+import { Menu } from './components/Menu';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

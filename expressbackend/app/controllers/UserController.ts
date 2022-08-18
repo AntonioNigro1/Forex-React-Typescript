@@ -13,32 +13,33 @@ export const register: ExpressMiddleware<Req, Res> = async (req, res) => {
       email,
       password
     });
-    res.status(200).json({ status: '200' });
+    const message: string = 'User registred successefully';
+    res.status(200).json({ status: '200', message: message });
   } catch (err) {
-    let message
-    if (err instanceof Error) message = err.message
-    else message = String(err)
-    res.status(401).json({ status: '401', error: 'Something went wrong, check your credencials: ' + err })
+    res.status(401).json({ status: '409', error: 'Something went wrong, check your credencials : ' + err })
   }
 };
 
 export const login: ExpressMiddleware<Req, Res> = async (req, res) => {
   const { email, password } = req.body;
   try {
-    UserDB.find({ email: email, password: password }, '_id name').exec(function (err, doc) {
-      if (doc) {
+    UserDB.find({ email: email, password: password }).exec(function (err, doc) {
+      if (doc.length > 0) {
+        console.log(doc);
         const token = jwt.sign({ doc }, process.env.SECRET, {
           expiresIn: 3000
         });
-        res.json({ auth: true, token: token, userInfo: doc })
+        const message: string = 'Loging successeful, Redirecting...'
+        res.status(200).json({ auth: true, token: token, userInfo: doc, message: message })
       }
     });
+    res.statu(409).json({ status: '409', error: 'Something went wrong, check your credencials' })
 
   } catch (err) {
-    let message
-    if (err instanceof Error) message = err.message
-    else message = String(err)
-    res.status(401).json({ status: '401', error: 'Something went wrong, check your credencials' + err })
+    let message: string;
+    if (err instanceof Error) message = err.message;
+    else message = String(err);
+    res.status(409).json({ status: '409', error: 'Something went wrong, check your credencials' + err })
   }
 };
 

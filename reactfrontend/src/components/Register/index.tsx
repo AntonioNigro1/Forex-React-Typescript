@@ -3,13 +3,14 @@ import './styles.css'
 import { Component } from 'react';
 import { User } from '../interfaces';
 
-export class Register extends Component<{}, { name: string, email: string, password: string }> {
+export class Register extends Component<{}, { name: string, email: string, password: string, message: string }> {
   constructor(props: User) {
     super(props);
     this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      message: ''
     };
 
   }
@@ -28,7 +29,7 @@ export class Register extends Component<{}, { name: string, email: string, passw
     this.setState({ password: e.target.value });
   }
 
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const requestOptions = {
       method: 'POST',
@@ -40,12 +41,21 @@ export class Register extends Component<{}, { name: string, email: string, passw
       })
     };
 
-    fetch("http://localhost:9000/register", requestOptions)
-      .then(response => response.json)
+    try {
+      const res = await fetch("http://localhost:9000/register", requestOptions);
+      if (!res.ok) {
+        const message = `An error has occured: ${res.status} - email already exists`;
+        this.setState({ message: message });
+        throw new Error(message);
+      }
+      const data = await res.json();
+      this.setState({ message: data.message });
+    } catch (err) {
+    }
   };
 
   render() {
-    const { name, email, password } = this.state;
+    const { name, email, password, message } = this.state;
 
     return (
       <div className='Register'>
@@ -55,6 +65,7 @@ export class Register extends Component<{}, { name: string, email: string, passw
           <input className="register_input" type="email" value={email} onChange={this.handleChangeEmail} placeholder="Email"></input>
           <input className="register_input" type="password" value={password} onChange={this.handleChangePassword} placeholder="Password"></input>
           <button className='forms_button' type='submit'>Register</button>
+          <p className='register_res'>{message}</p>
         </form>
       </div>
     )

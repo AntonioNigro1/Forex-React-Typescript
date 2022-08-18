@@ -16,3 +16,15 @@
   padding: 5px 10px;
 }
 
+.link{
+  width: fit-content;
+  height: fit-content;
+}
+
+.link:hover{
+  cursor: default;
+}
+
+.link .menu_button:hover{
+  cursor: pointer;
+}
