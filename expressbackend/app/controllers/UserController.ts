@@ -16,7 +16,8 @@ export const register: ExpressMiddleware<Req, Res> = async (req, res) => {
     const message: string = 'User registred successefully';
     res.status(200).json({ status: '200', message: message });
   } catch (err) {
-    res.status(401).json({ status: '409', error: 'Something went wrong, check your credencials' });
+    const message: string = err;
+    res.status(401).json({ status: '401', error: 'Something went wrong, check your credencials', message: 'Db error: ' + message });
   }
 };
 

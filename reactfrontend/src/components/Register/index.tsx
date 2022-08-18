@@ -44,7 +44,7 @@ export class Register extends Component<{}, { name: string, email: string, passw
     try {
       const res = await fetch("http://localhost:9000/register", requestOptions);
       if (!res.ok) {
-        const message = `An error has occured: ${res.status} - email already exists`;
+        const message = `An error has occured: invalid user data`;
         this.setState({ message: message });
         throw new Error(message);
       }
