@@ -2,12 +2,6 @@ import mongoose from "mongoose";
 import { User } from '../interfaces';
 
 const userSchema = new mongoose.Schema<User>({
-  _id: {
-    type: 'string',
-    required: true,
-    unique: true,
-  },
-
   name: {
     type: 'string',
     required: true,
@@ -32,4 +26,5 @@ const userSchema = new mongoose.Schema<User>({
   }
 })
 
-module.exports = mongoose.model('User', userSchema);
+let DB = mongoose.model('User', userSchema);
+export default DB;

@@ -1,7 +1,20 @@
 {
   "compilerOptions": {
-    "types": [
-      "node"
-    ],
+    "skipLibCheck": true,
+    "target": "ES6",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "outDir": "./build",
+    "rootDir": "app",
   },
+  "include": [
+    "app/*",
+    "app/index.mts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

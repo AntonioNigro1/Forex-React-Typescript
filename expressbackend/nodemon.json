@@ -1,0 +1,8 @@
+{
+  "watch": [
+    "app"
+  ],
+  "ext": ".ts,.js",
+  "ignore": [],
+  "exec": "ts-node --files ./app/index.mts"
+}
