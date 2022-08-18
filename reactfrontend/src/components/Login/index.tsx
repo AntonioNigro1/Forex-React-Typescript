@@ -47,7 +47,7 @@ export class Login extends Component<{}, { email: string, password: string, data
       const res = await fetch("http://localhost:9000/login", requestOptions);
 
       if (!res.ok) {
-        const message = `An error has occured: Email or password invalid`;
+        const message = `Invalid email or password please check your credentials`;
         this.setState({ message: message });
         throw new Error(message);
       }
@@ -67,8 +67,8 @@ export class Login extends Component<{}, { email: string, password: string, data
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <input className="login_input" type="email" value={email} onChange={this.handleChangeEmail} placeholder="Email"></input>
-          <input className="login_input" type="password" value={password} onChange={this.handleChangePassword} placeholder="Password"></input>
-          <button className='forms_button' type='submit'>Login</button>
+          <input className="login_input" type="password" value={password} onChange={this.handleChangePassword} minLength={6} placeholder="Password"></input>
+          <button className='forms_button' type='submit'>Sign In</button>
           <p className='login_res'>{message}</p>
         </form>
       </div >

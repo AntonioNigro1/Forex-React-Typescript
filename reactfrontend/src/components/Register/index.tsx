@@ -44,7 +44,7 @@ export class Register extends Component<{}, { name: string, email: string, passw
     try {
       const res = await fetch("http://localhost:9000/register", requestOptions);
       if (!res.ok) {
-        const message = `An error has occured: invalid user data`;
+        const message = `User information invalid`;
         this.setState({ message: message });
         throw new Error(message);
       }
@@ -63,8 +63,8 @@ export class Register extends Component<{}, { name: string, email: string, passw
         <form onSubmit={this.handleSubmit}>
           <input className="register_input" type="text" value={name} onChange={this.handleChangeName} placeholder="Full name"></input>
           <input className="register_input" type="email" value={email} onChange={this.handleChangeEmail} placeholder="Email"></input>
-          <input className="register_input" type="password" value={password} onChange={this.handleChangePassword} placeholder="Password"></input>
-          <button className='forms_button' type='submit'>Register</button>
+          <input className="register_input" type="password" value={password} onChange={this.handleChangePassword} placeholder="Password" minLength={6}></input>
+          <button className='forms_button' type='submit'>Sign Up</button>
           <p className='register_res'>{message}</p>
         </form>
       </div>

@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema<User>({
     type: 'string',
     required: true,
     maxLength: 12,
-    minLength: 1
+    minLength: 6
   }
 })
 
