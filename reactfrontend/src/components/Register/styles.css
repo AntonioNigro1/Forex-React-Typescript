@@ -1,4 +1,4 @@
-.Register{
+.Register {
   height: auto;
   width: auto;
   position: relative;
@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.register_input{
+.register_input {
   width: 30%;
   border-radius: 7px;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.15);
@@ -17,8 +17,7 @@
   background: #f5f5f5;
 }
 
-
-.forms_button{
+.forms_button {
   width: fit-content;
   margin: auto;
   border-radius: 5px;
@@ -27,11 +26,11 @@
   padding: 5px 10px;
 }
 
-.forms_button:hover{
+.forms_button:hover {
   cursor: pointer;
 }
 
-.register_res{
-margin: 5px auto;
-color: rgba(0, 0, 0, 0.80);
+.register_res {
+  margin: 5px auto;
+  color: rgba(0, 0, 0, 0.8);
 }

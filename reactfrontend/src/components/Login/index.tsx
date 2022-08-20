@@ -1,46 +1,55 @@
-import './styles.css';
+import "./styles.css";
 
-import { Component } from 'react';
-import { User } from '../interfaces';
+import { Component } from "react";
+import { User } from "../interfaces";
 
-
-export class Login extends Component<{}, { email: string, password: string, data: { auth: boolean, token: string, userInfo: { _id: string, name: string } }, message: string }> {
+export class Login extends Component<
+  {},
+  {
+    email: string;
+    password: string;
+    data: {
+      auth: boolean;
+      token: string;
+      userInfo: { _id: string; name: string };
+    };
+    message: string;
+  }
+> {
   constructor(props: User) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       data: {
         auth: false,
-        token: '',
+        token: "",
         userInfo: {
-          _id: '',
-          name: ''
-        }
+          _id: "",
+          name: "",
+        },
       },
-      message: ''
+      message: "",
     };
-
   }
 
   handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ email: e.target.value });
-
-  }
+  };
 
   handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: e.target.value });
-  }
+  };
 
   handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
+      method: "POST",
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password
-      })
+        password: this.state.password,
+      }),
     };
 
     try {
@@ -53,26 +62,38 @@ export class Login extends Component<{}, { email: string, password: string, data
       }
       const data = await res.json();
       this.setState({ data: data });
-      localStorage.setItem('auth', data.auth);
-      localStorage.setItem('token', data.token);
+      localStorage.setItem("auth", data.auth);
+      localStorage.setItem("token", data.token);
       this.setState({ message: data.message });
-    } catch (err) {
-
-    }
-  }
+    } catch (err) {}
+  };
   render() {
     const { email, password, message } = this.state;
     return (
-      <div className='Login'>
+      <div className="Login">
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          <input className="login_input" type="email" value={email} onChange={this.handleChangeEmail} placeholder="Email"></input>
-          <input className="login_input" type="password" value={password} onChange={this.handleChangePassword} minLength={6} placeholder="Password"></input>
-          <button className='forms_button' type='submit'>Sign In</button>
-          <p className='login_res'>{message}</p>
+          <input
+            className="login_input"
+            type="email"
+            value={email}
+            onChange={this.handleChangeEmail}
+            placeholder="Email"
+          ></input>
+          <input
+            className="login_input"
+            type="password"
+            value={password}
+            onChange={this.handleChangePassword}
+            minLength={6}
+            placeholder="Password"
+          ></input>
+          <button className="forms_button" type="submit">
+            Sign In
+          </button>
+          <p className="login_res">{message}</p>
         </form>
-      </div >
-    )
+      </div>
+    );
   }
-
 }

@@ -1,19 +1,19 @@
-import './styles.css';
+import "./styles.css";
 
-import { Link } from 'react-router-dom'
-import { Component } from 'react';
+import { Link } from "react-router-dom";
+import { Component } from "react";
 
-
-
-
-export class Menu extends Component<{}, { visibility: boolean, auth: boolean | string | null, token: string }> {
+export class Menu extends Component<
+  {},
+  { visibility: boolean; auth: boolean | string | null; token: string }
+> {
   constructor(props: string & boolean) {
     super(props);
     this.state = {
       visibility: false,
       auth: false,
-      token: '',
-    }
+      token: "",
+    };
   }
 
   //handleVisibility = () => {
@@ -29,8 +29,8 @@ export class Menu extends Component<{}, { visibility: boolean, auth: boolean | s
   render() {
     return (
       <>
-        <div className='menu'>
-          <img className='top_img' src="/images/topbg.jpg" alt='' />
+        <div className="menu">
+          <img className="top_img" src="/images/topbg.jpg" alt="" />
 
           <button className="menu_button">Deposit</button>
 
@@ -42,18 +42,17 @@ export class Menu extends Component<{}, { visibility: boolean, auth: boolean | s
 
           <button className="menu_button">History</button>
 
-          <Link to="/Login" className='link'>
+          <Link to="/Login" className="link">
             <button className="menu_button">Login</button>
           </Link>
 
-          <Link to="/Register" className='link'>
+          <Link to="/Register" className="link">
             <button className="menu_button">Register</button>
           </Link>
 
           <button className="menu_button">Logout</button>
         </div>
-
       </>
-    )
+    );
   }
 }
