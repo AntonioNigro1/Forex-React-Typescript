@@ -6,7 +6,7 @@ import morgan from "morgan";
 import http from "http";
 
 import UserRouter from "./route/UserRouter.js";
-
+import TransactionRouter from "./route/TransactionRouter.js"
 const app = express();
 
 dotenv.config();
@@ -20,5 +20,6 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/", UserRouter);
+app.use("/", TransactionRouter);
 
 http.createServer(app).listen(9000);

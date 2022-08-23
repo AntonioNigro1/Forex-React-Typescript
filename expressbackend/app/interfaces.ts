@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { ObjectId } from 'mongoose';
 
 type TypedReq<
   ReqBody = Record<string, unknown>,
@@ -25,13 +26,12 @@ interface currency {
   gbp?: number;
 }
 
-export interface transaction extends currency {
-  _id: string;
+export interface Transaction extends currency {
   sender_id: string;
   receiver_id: string;
+  date: Date;
 }
-export interface User extends currency {
-  _id: string;
+export interface User extends currency{
   name: string;
   email: string;
   password: string;

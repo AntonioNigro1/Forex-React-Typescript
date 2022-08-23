@@ -24,6 +24,16 @@ const userSchema = new mongoose.Schema<User>({
     maxLength: 12,
     minLength: 6,
   },
+
+  usd: {
+    type: "number",
+    required: false,
+  },
+
+  gbp: {
+    type: "number",
+    required: false,
+  },
 });
 
 let DB = mongoose.model("User", userSchema);
