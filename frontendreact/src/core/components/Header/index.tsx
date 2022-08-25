@@ -5,16 +5,16 @@ import {
   Content,
   ContentImage,
   ImageLogo,
-  FilterButton,
+  DrawerButton,
 } from "./styles";
 import { LogoMoney, LogoConfig } from "../../../assets";
 import Image from "next/image";
 
 interface IHeaderProps {
-  handleFilterButton: () => void;
+  handleDrawerButton: () => void;
 }
 
-const Header = ({ handleFilterButton }: IHeaderProps) => {
+const Header = ({ handleDrawerButton }: IHeaderProps) => {
   return (
     <Container>
       <Content>
@@ -22,9 +22,9 @@ const Header = ({ handleFilterButton }: IHeaderProps) => {
           <ImageLogo height="80%" src={LogoMoney} />
         </ContentImage>
 
-        <FilterButton onClick={handleFilterButton}>
+        <DrawerButton onClick={handleDrawerButton}>
           <Image src={LogoConfig} />
-        </FilterButton>
+        </DrawerButton>
       </Content>
     </Container>
   );

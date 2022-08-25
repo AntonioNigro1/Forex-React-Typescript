@@ -9,9 +9,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
-import React, { useState } from "react";
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from "react";
 import { BiDollar } from "react-icons/bi";
+import { useAuth } from '../../contexts/Auth/Auth';
 import { Drawer, Header } from "../../core/components";
 import { baseURL } from "../../core/services/api";
 import { TitleComponent } from "../../pageComplements/deposit/styles";
@@ -22,15 +23,23 @@ const Deposit = () => {
   const [currency, setCurrency] = useState<number | string>(0);
   const [checkedUsd, setCheckedUsd] = useState(false);
   const [checkedGbp, setCheckedGbp] = useState(false);
+  const authContext = useAuth();
+  const router = useRouter();
   const toast = useToast();
+  
+  useEffect(() => {
+    if(!authContext.auth) router.push({pathname:"/Login"})
+  }, [authContext.auth]);
+
   const handleDrawer = () => {
     onOpen();
   };
 
-  const handleDeposit = async () => {
+  
 
+  const handleDeposit = async () => {
     try {
-      const res = await fetch(`${baseURL}/deposit`, {
+      await fetch(`${baseURL}/deposit`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
         mode: "cors",
@@ -49,7 +58,6 @@ const Deposit = () => {
         duration: 5000,
         isClosable: true,
       });
-
     } catch (error) {
       toast({
         title: "Failed to deposit",
@@ -75,7 +83,7 @@ const Deposit = () => {
     <>
       <Drawer isOpen={isOpen} onClose={onClose} />
       <Container>
-        <Header handleFilterButton={handleDrawer} />
+        <Header handleDrawerButton={handleDrawer} />
       </Container>
 
       <Stack spacing={10} alignItems="center">

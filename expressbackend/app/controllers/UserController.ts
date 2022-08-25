@@ -5,6 +5,12 @@ import jwt from "jsonwebtoken";
 type Req = { user: User };
 type Res = { message: string };
 
+interface UserInfo{
+  token: string;
+  _id: string;
+  name: string;
+};
+
 export const register: ExpressMiddleware<Req, Res> = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -36,10 +42,12 @@ export const login: ExpressMiddleware<Req, Res> = async (req, res) => {
       const token = jwt.sign({ reply }, process.env.Secret, {
         expiresIn: 3000,
       });
+      console.log(reply);
+      const userInfo:UserInfo = {token:token, _id: reply._id.toString(), name:reply.name}
       const message: string = "Loging successeful, Redirecting...";
       res
         .status(200)
-        .json({ auth: true, token: token, userInfo: reply, message: message });
+        .json({token: token, userInfo: reply, message: message });
     } else {
       const message: string = "User email or password invalid";
       throw new Error(message);

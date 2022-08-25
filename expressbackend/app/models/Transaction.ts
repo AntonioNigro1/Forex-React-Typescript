@@ -11,6 +11,10 @@ const tranSchema = new mongoose.Schema<Transaction>({
     type: "string",
     required: true,
   },
+  exchange: {
+    type: "number",
+    required: true,
+  },
 
   date: {
     type: "date",

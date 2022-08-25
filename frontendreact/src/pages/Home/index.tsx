@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Header, Carousel, Drawer } from "../../core/components";
-import { Container } from "../../pageComplements/home/styles";
 import { useDisclosure } from "@chakra-ui/react";
+import { useAuth } from '../../contexts/Auth/Auth';
+import { useRouter } from 'next/router';
 
-const HomeComponent = (props: any) => {
+const HomeComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const authContext = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if(!authContext.auth) router.push({pathname:"/Login"})
+  }, [authContext.auth]);
 
   const handleDrawer = () => {
     onOpen();
@@ -14,10 +21,10 @@ const HomeComponent = (props: any) => {
   return (
     <>
       <Drawer isOpen={isOpen} onClose={onClose} />
-      <Container>
-        <Header handleFilterButton={handleDrawer} />
+      <div>
+        <Header handleDrawerButton={handleDrawer} />
         <Carousel />
-      </Container>
+      </div>
     </>
   );
 };

@@ -4,9 +4,12 @@ import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import http from "http";
+import {WebSocketServer} from "ws";
 
 import UserRouter from "./route/UserRouter.js";
-import TransactionRouter from "./route/TransactionRouter.js"
+import TransactionRouter from "./route/TransactionRouter.js";
+import onConnection from "./app-ws.js";
+
 const app = express();
 
 dotenv.config();
@@ -22,4 +25,10 @@ app.use(morgan("tiny"));
 app.use("/", UserRouter);
 app.use("/", TransactionRouter);
 
-http.createServer(app).listen(9000);
+const server = http.createServer(app);
+
+const wss = new WebSocketServer({port: 9001});
+
+wss.on("connection", onConnection);
+
+server.listen(9000);

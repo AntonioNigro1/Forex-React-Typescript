@@ -9,7 +9,9 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from "react";
+import { useAuth } from '../../contexts/Auth/Auth';
 import { Drawer, Header } from "../../core/components";
 import { baseURL } from '../../core/services/api';
 import { TitleComponent } from "../../pageComplements/deposit/styles";
@@ -21,6 +23,11 @@ const Withdraw = () => {
   const [checkedUsd, setCheckedUsd] = useState(false);
   const [checkedGbp, setCheckedGbp] = useState(false);
   const toast = useToast();
+  const authContext = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if(!authContext.auth) router.push({pathname:"/Login"})
+  }, [authContext.auth]);
   const handleDrawer = () => {
     onOpen();
   };
@@ -72,7 +79,7 @@ const Withdraw = () => {
     <>
       <Drawer isOpen={isOpen} onClose={onClose} />
       <Container>
-        <Header handleFilterButton={handleDrawer} />
+        <Header handleDrawerButton={handleDrawer} />
       </Container>
 
       <Stack spacing={10} alignItems="center">

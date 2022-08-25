@@ -12,10 +12,11 @@ import {
   Link,
   FormControl,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
-import { api } from "../../core/services/api";
+import { baseURL } from "../../core/services/api";
 
 const CFPassword = chakra(FaLock);
 
@@ -24,27 +25,37 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-
+  const toast = useToast();
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const handleSubmit = async () => {
-    const requestOptions = {
-      headers: {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        name: "Antonio",
-        email: "toninisdfasdasdaso@live.com",
-        password: "010398",
-      }),
-    };
-
     try {
-      const data = await api.post("/register", requestOptions);
-      console.log(data);
+      await fetch(`${baseURL}/login`, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+        }),
+      });
+
+      toast({
+        title: "Login successefuly!",
+        description: "Redirecting...",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Login failed",
+        description: "Please check your credentials",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
   return (
@@ -62,7 +73,7 @@ const Register = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Heading color="teal.400">Register</Heading>
+        <Heading color="#00a1ff">Register</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -121,7 +132,7 @@ const Register = () => {
               <Button
                 borderRadius={0}
                 variant="solid"
-                colorScheme="teal"
+                style={{ backgroundColor: "#00a1ff", color: "white" }}
                 width="full"
                 onClick={handleSubmit}
               >
@@ -133,7 +144,7 @@ const Register = () => {
       </Stack>
       <Box>
         Already have an account?
-        <Link color="teal.500" href="/Login">
+        <Link color="#00a1ff" href="/Login">
           {" "}
           Sign In
         </Link>

@@ -28,7 +28,7 @@ export const ContentImage = styled.div`
 export const ImageLogo = styled(Image)`
 `
 
-export const FilterButton = styled.button`
+export const DrawerButton = styled.button`
 margin-left:2vw;
 width:50px ;
 height:50px ;

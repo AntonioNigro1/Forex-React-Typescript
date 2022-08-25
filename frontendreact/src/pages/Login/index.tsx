@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -10,42 +10,68 @@ import {
   chakra,
   Box,
   Link,
-  Avatar,
+  useToast,
   FormControl,
   FormHelperText,
   InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { api } from "../../core/services/api";
-import axios from "axios";
+import { baseURL } from "../../core/services/api";
+import { useAuth } from "../../contexts/Auth/Auth";
+import { useRouter } from "next/router";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFPassword = chakra(FaLock);
-
+interface JSONResponse {
+  token: string;
+  _id: string;
+  name: string;
+}
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const toast = useToast();
+  const authContext = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if(authContext.auth) router.push({pathname:"/Home"})
+  },[authContext]);
 
   const handleShowClick = () => setShowPassword(!showPassword);
-
   const handleSubmit = async () => {
-    const requestOptions = {
-      headers: {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        email: "toninigro@live.com",
-        password: "010398",
-      }),
-    };
-
     try {
-      const data = await api.post("/login", requestOptions);
-      console.log(data);
+      const res = await fetch(`${baseURL}/login`, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      const data: JSONResponse = await res.json();
+      authContext.signIn(data);
+
+      router.push({ pathname: "/Home" });
+
+      toast({
+        title: "Login successefuly!",
+        description: "Redirecting...",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Login failed",
+        description: "Please check your credentials",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
   return (
@@ -63,7 +89,7 @@ const Login = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Heading color="teal.400">Welcome</Heading>
+        <Heading color="#00a1ff">Welcome</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -108,7 +134,7 @@ const Login = () => {
               <Button
                 borderRadius={0}
                 variant="solid"
-                colorScheme="teal"
+                style={{ backgroundColor: "#00a1ff", color: "white" }}
                 width="full"
                 onClick={handleSubmit}
               >
@@ -120,7 +146,7 @@ const Login = () => {
       </Stack>
       <Box>
         New to us?
-        <Link color="teal.500" href="/Register">
+        <Link color="#00a1ff" href="/Register">
           {" "}
           Sign Up
         </Link>

@@ -17,3 +17,11 @@ background-color:${colors().background};
 border:1px ${colors().gray1} solid;
 `
 
+export const HistContainer = styled.div`
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #00a1ff;
+`;

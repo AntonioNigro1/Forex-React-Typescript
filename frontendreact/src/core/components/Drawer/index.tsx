@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { GiPayMoney, GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { RiExchangeDollarFill } from "react-icons/ri";
 import { BiHistory } from "react-icons/bi";
+import { useAuth } from '../../../contexts/Auth/Auth';
 interface IDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -23,8 +24,11 @@ interface IDrawerProps {
 
 const Drawer = ({ isOpen, onClose }: IDrawerProps) => {
   const router = useRouter();
+  const authContext = useAuth();
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    authContext.signOut();
+  };
 
   return (
     <>
