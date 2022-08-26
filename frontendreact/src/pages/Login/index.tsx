@@ -36,8 +36,8 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if(authContext.auth) router.push({pathname:"/Home"})
-  },[authContext]);
+    if (authContext.auth) router.push({ pathname: "/Home" });
+  }, [authContext]);
 
   const handleShowClick = () => setShowPassword(!showPassword);
   const handleSubmit = async () => {
@@ -51,19 +51,23 @@ const Login = () => {
           password: password,
         }),
       });
+      if (res.ok) {
+        const data: JSONResponse = await res.json();
 
-      const data: JSONResponse = await res.json();
-      authContext.signIn(data);
+        authContext.signIn(data);
 
-      router.push({ pathname: "/Home" });
+        router.push({ pathname: "/Home" });
 
-      toast({
-        title: "Login successefuly!",
-        description: "Redirecting...",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+        toast({
+          title: "Login successefuly!",
+          description: "Redirecting...",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        throw Error;
+      }
     } catch (error) {
       toast({
         title: "Login failed",

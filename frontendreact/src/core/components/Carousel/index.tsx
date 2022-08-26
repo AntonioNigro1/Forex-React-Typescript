@@ -39,7 +39,6 @@ const Carousel = () => {
         slidesToShow={slideToShow}
         withoutControls
         autoplay
-        // cellAlign={'center'}
       >
         <DivComponent
           onClick={() => {
@@ -64,14 +63,6 @@ const Carousel = () => {
         >
           <RiExchangeDollarFill size={"60%"} color="white" />
           <PComponent>Exchange</PComponent>
-        </DivComponent>
-        <DivComponent
-          onDoubleClick={() => {
-            router.push({ pathname: "/Pay" });
-          }}
-        >
-          <GiTakeMyMoney size={"60%"} color="white" />
-          <PComponent>Pay</PComponent>
         </DivComponent>
         <DivComponent
           onDoubleClick={() => {

@@ -1,36 +1,39 @@
 import React, { useEffect, useState } from "react";
 
 import { Drawer, Header } from "../../core/components";
-import { Container, HistContainer } from "../../pageComplements/historyScreen/styles";
+import {
+  Container,
+  HistContainer,
+} from "../../pageComplements/historyScreen/styles";
 import { useDisclosure } from "@chakra-ui/react";
-import TransactionItem from "../../pageComplements/historyScreen/Components/TransactionItem";
 import { baseURL } from "../../core/services/api";
+import { GiPayMoney, GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
+import { RiExchangeDollarFill } from "react-icons/ri";
+import { Infobox } from "../../pageComplements/historyScreen/Components/TransactionItem/style";
 
-type Data = {
-  sender_id: string | undefined;
-  receiver_id: string | undefined;
-  date: Date | undefined;
-  usd: number | undefined;
-  gbp: number | undefined;
-};
-
+interface JSONResponse extends Array<JSONResponse> {
+  data: {
+    sender_id: string;
+    receiver_id: string;
+    exchange: number;
+    date: Date;
+    usd: number;
+    gbp: number;
+  };
+}
 const History = () => {
-  const [filtersActiveds, setFiltersActiveds] = useState<string[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [sender_id, setSender_id] = useState<string>();
-  const [receiver_id, setReceiver_id] = useState<string>();
-  const [exchange, setExchange] = useState<Number>();
+  const [type, setType] = useState<string>();
+  const [icon, setIcon] = useState<JSX.Element>();
   const [date, setDate] = useState<Date>();
-  const [usd, setUsd] = useState<Number>();
-  const [gbp, setGbp] = useState<Number>();
-  const [data, setData] = useState();
+  const [amount, setAmount] = useState<number>();
 
   const handleDrawer = () => {
     onOpen();
   };
 
   const handleHistory = async () => {
-    const res = await fetch(`${baseURL}/history`, {
+    const reply = await fetch(`${baseURL}/history`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
@@ -38,57 +41,52 @@ const History = () => {
         sender_id: "62fe55a52d34aedf5e11a44e",
       }),
     });
-    console.log(res.json());
-    
-    type JSONResponse = {
-      data?: {
-        transactions: Omit<Data, "fetched">;
+    if (reply.ok) {
+      const res: JSONResponse = await reply.json();
+
+      for (let i = 0; i >= res.length; i++) {
+        if (res[i].data.sender_id === res[i].data.receiver_id) {
+          if (res[i].data.usd != 0) {
+            let dataUSD = res[i].data.usd > 0 ? "deposit USD" : "withdraw USD";
+            setType(dataUSD);
+          } else if (res[i].data.gbp != 0) {
+            let dataGBP = res[i].data.gbp > 0 ? "deposit GBP" : "withdraw GBP";
+            setType(dataGBP);
+          }
+        }
+        if (res[i].data.exchange === 1) {
+          setType(
+            res.data.usd > 0 && res.data.gbp === 0
+              ? "Exchanged USD to GBP"
+              : "Exchanged GBP to USD"
+          );
+        }
+
+        if (type === ("deposit USD" || "deposit GBP")) {
+          setIcon(<GiPayMoney size={20} color="#00a1ff" />);
+        } else if (type === ("withdraw USD" || "withdraw GBP")) {
+          setIcon(<GiReceiveMoney size={20} color="#00a1ff" />);
+        } else if (type === ("Pay USD" || "Pay GBP")) {
+          setIcon(<GiTakeMyMoney size={20} color="#00a1ff" />);
+        } else if (type == ("Exchanged USD to GBP" || "Exchanged GBP to USD")) {
+          setIcon(<RiExchangeDollarFill size={20} color="#00a1ff" />);
+        }
+        setDate(res[i].data.date);
+        if (res[i].data.usd > 0) setAmount(res[i].data.usd);
+        if (res[i].data.gbp > 0) setAmount(res[i].data.gbp);
+
+        let list = + React.createElement(
+          Infobox,
+          {},
+          icon,
+          type,
+          amount,
+          date?.toString()
+        );
       }
-      errors?: Array<{messsage: string}>;
+      return 
     }
-    const {data, errors}: JSONResponse = await res.json();
-    const historyTransaction:Data ={
-      sender_id: data?.transactions.sender_id,
-      receiver_id: data?.transactions.receiver_id,
-      date: data?.transactions.date,
-      usd: data?.transactions.usd,
-      gbp: data?.transactions.gbp
-    }
-    return historyTransaction;
   };
-
-  // async function handleHistory(): Promise<Data> {
-  //   const res = await fetch(`${baseURL}/history`, {
-  //     method: "post",
-  //     headers: { "Content-Type": "application/json" },
-  //     mode: "cors",
-  //     body: JSON.stringify({
-  //       sender_id: "62fe55a52d34aedf5e11a44e",
-  //     }),
-  //   });
-
-  //   type JSONResponse = {
-  //     data?: {
-  //       transactions: Omit<Data, "fetched">;
-  //     };
-  //     errors?: Array<{ message: string }>;
-  //   };
-
-  //   const { data, errors }: JSONResponse = await res.json();
-  //   if (res.ok) {
-  //     const resData = data?.transactions;
-  //     if (resData) {
-  //       return Object.assign(resData);
-  //     } else {
-  //       return Promise.reject(new Error("Failed to fetch history"));
-  //     }
-  //   } else {
-  //     const error = new Error(
-  //       errors?.map((e) => e.message).join("\n") ?? "unknown"
-  //     );
-  //     return Promise.reject(error);
-  //   }
-  // }
 
   useEffect(() => {
     const hist = handleHistory();
@@ -102,7 +100,7 @@ const History = () => {
         <Header handleDrawerButton={handleDrawer} />
       </Container>
       <HistContainer>
-        {/* <TransactionItem data={data} ></TransactionItem>  */}
+        createElement()
       </HistContainer>
     </>
   );

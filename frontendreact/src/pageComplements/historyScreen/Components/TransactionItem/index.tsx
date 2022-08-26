@@ -4,49 +4,56 @@ import { GiPayMoney, GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { RiExchangeDollarFill } from "react-icons/ri";
 import { Info, Infobox } from "./style";
 
-interface Data {
-  sender_id: string;
-  receiver_id: string;
-  exchange: number;
-  date: Date;
-  usd: number;
-  gbp: number;
+interface JSONResponse extends Array<JSONResponse> {
+  data: {
+    sender_id: string;
+    receiver_id: string;
+    exchange: number;
+    date: Date;
+    usd: number;
+    gbp: number;
+  };
+}
+type Props = {
+source: JSONResponse;
 }
 
-const TansactionItem = (data: any) => {
+const TansactionItem:  React.FC<Props> =({source}) => {
   const [type, setType] = useState<string>();
   const [icon, setIcon] = useState<JSX.Element>();
-  const [date] = useState<Date>(data.date);
-  console.log(data);
-  // if (data.sender_id === data.receiver_id) {
-  //   if (data.usd != 0) {
-  //     const dataUSD = data.usd > 0 ? "deposit USD" : "withdraw USD";
-  //     setType(dataUSD);
-  //   } else if (data.gbp != 0) {
-  //     const dataGBP = data.gbp > 0 ? "deposit GBP" : "withdraw GBP";
-  //     setType(dataGBP);
-  //   }
-  // } else {
-  //   setType(data.usd > 0 && data.gbp === 0 ? "Pay USD" : "Pay GBP");
-  // }
+  const [date] = useState<Date>();
 
-  // if (data.exchange === 1) {
-  //   setType(
-  //     data.usd > 0 && data.gbp === 0
-  //       ? "Exchanged USD to GBP"
-  //       : "Exchanged GBP to USD"
-  //   );
-  // }
+  for (let i = 0; i >= source.length; i++) {
+    if (source.data.sender_id === source.data.receiver_id) {
+      if (source.data.usd != 0) {
+        const dataUSD = source.data.usd > 0 ? "deposit USD" : "withdraw USD";
+        setType(dataUSD);
+      } else if (source.data.gbp != 0) {
+        const dataGBP = source.data.gbp > 0 ? "deposit GBP" : "withdraw GBP";
+        setType(dataGBP);
+      }
+    } else {
+      setType(source.data.usd > 0 && source.data.gbp === 0 ? "Pay USD" : "Pay GBP");
+    }
 
-  // if (type === ("deposit USD" || "deposit GBP")) {
-  //   setIcon(<GiPayMoney size={20} color="#00a1ff" />);
-  // } else if (type === ("withdraw USD" || "withdraw GBP")) {
-  //   setIcon(<GiReceiveMoney size={20} color="#00a1ff" />);
-  // } else if (type === ("Pay USD" || "Pay GBP")) {
-  //   setIcon(<GiTakeMyMoney size={20} color="#00a1ff" />);
-  // } else if (type == ("Exchanged USD to GBP" || "Exchanged GBP to USD")) {
-  //   setIcon(<RiExchangeDollarFill size={20} color="#00a1ff" />);
-  // }
+    if (source.data.exchange === 1) {
+      setType(
+        source.data.usd > 0 && source.data.gbp === 0
+          ? "Exchanged USD to GBP"
+          : "Exchanged GBP to USD"
+      );
+    }
+
+    if (type === ("deposit USD" || "deposit GBP")) {
+      setIcon(<GiPayMoney size={20} color="#00a1ff" />);
+    } else if (type === ("withdraw USD" || "withdraw GBP")) {
+      setIcon(<GiReceiveMoney size={20} color="#00a1ff" />);
+    } else if (type === ("Pay USD" || "Pay GBP")) {
+      setIcon(<GiTakeMyMoney size={20} color="#00a1ff" />);
+    } else if (type == ("Exchanged USD to GBP" || "Exchanged GBP to USD")) {
+      setIcon(<RiExchangeDollarFill size={20} color="#00a1ff" />);
+    }
+  }
 
   return (
     <>
@@ -54,8 +61,8 @@ const TansactionItem = (data: any) => {
         {icon}
         <Info>{type}</Info>
         <Info>
-          Amout: {data.gbp > 0 ? data.gbp : ""}
-          {data.usd > 0 ? data.usd : ""}
+          Amout: {source.data.gbp > 0 ? source.data.gbp : ""}
+          {source.data.usd > 0 ? source.data.usd : ""}
         </Info>
         <Info>{`Date:` + date}</Info>
       </Infobox>

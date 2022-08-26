@@ -41,9 +41,12 @@ const Withdraw = () => {
     }
   };
 
-  const handleDeposit = async () => {
+  const handleWithdraw = async () => {
     try {
-      const res = await fetch(`${baseURL}/withdraw`, {
+      if(!checkedUsd && !checkedGbp){
+        throw Error;
+      }
+      await fetch(`${baseURL}/withdraw`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
         mode: "cors",
@@ -120,7 +123,7 @@ const Withdraw = () => {
           />
           <InputRightElement />
         </InputGroup>
-        <Button colorScheme="teal" variant="outline" onClick={handleDeposit}>
+        <Button colorScheme="teal" variant="outline" onClick={handleWithdraw}>
           Withdraw!
         </Button>
       </Stack>

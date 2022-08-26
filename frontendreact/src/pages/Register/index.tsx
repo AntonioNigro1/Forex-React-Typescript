@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -17,6 +17,8 @@ import {
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
 import { baseURL } from "../../core/services/api";
+import { useAuth } from '../../contexts/Auth/Auth';
+import { useRouter } from 'next/router';
 
 const CFPassword = chakra(FaLock);
 
@@ -27,10 +29,16 @@ const Register = () => {
   const [name, setName] = useState("");
   const toast = useToast();
   const handleShowClick = () => setShowPassword(!showPassword);
+  const authContext = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (authContext.auth) router.push({ pathname: "/Home" });
+  }, [authContext]);
 
   const handleSubmit = async () => {
     try {
-      await fetch(`${baseURL}/login`, {
+      const res =await fetch(`${baseURL}/register`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
         mode: "cors",
@@ -40,17 +48,21 @@ const Register = () => {
           password: password,
         }),
       });
-
+    if(res.ok){
       toast({
-        title: "Login successefuly!",
-        description: "Redirecting...",
+        title: "Register successeful!",
+        description: "You can login now!",
         status: "success",
         duration: 5000,
         isClosable: true,
       });
+    }else{
+      throw Error;
+    }
+      
     } catch (error) {
       toast({
-        title: "Login failed",
+        title: "Register failed",
         description: "Please check your credentials",
         status: "error",
         duration: 5000,

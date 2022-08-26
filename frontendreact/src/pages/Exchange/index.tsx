@@ -15,7 +15,7 @@ import { useAuth } from "../../contexts/Auth/Auth";
 import { Drawer, Header } from "../../core/components";
 import { baseURL, wsURL } from '../../core/services/api';
 import { TitleComponent } from "../../pageComplements/deposit/styles";
-// import WebSocket from 'ws';
+//import WebSocket from 'ws';
 
 const Exchange = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +26,7 @@ const Exchange = () => {
   const router = useRouter();
   const toast = useToast();
   
-// const socket = new WebSocket(`ws${baseURL}`);
+//const socket = new WebSocket(`ws${baseURL}`);
   
   const handleExchange = async () => {
     try{

@@ -39,6 +39,9 @@ const Deposit = () => {
 
   const handleDeposit = async () => {
     try {
+      if(!checkedUsd && !checkedGbp){
+        throw Error;
+      }
       await fetch(`${baseURL}/deposit`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -50,7 +53,7 @@ const Deposit = () => {
           gbp: checkedGbp ? currency : 0,
         }),
       });
-
+      
       toast({
         title: "Deposit made successefuly",
         description: "Your money was deposited",

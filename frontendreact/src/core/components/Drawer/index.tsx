@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { GiPayMoney, GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { RiExchangeDollarFill } from "react-icons/ri";
 import { BiHistory } from "react-icons/bi";
-import { useAuth } from '../../../contexts/Auth/Auth';
+import { useAuth } from "../../../contexts/Auth/Auth";
 interface IDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -83,19 +83,6 @@ const Drawer = ({ isOpen, onClose }: IDrawerProps) => {
                 style={{ margin: "auto 10" }}
               />
               Exchange
-            </ButtonComponent>
-
-            <ButtonComponent
-              onClick={() => {
-                router.push({ pathname: "/Pay" });
-              }}
-            >
-              <GiTakeMyMoney
-                size={20}
-                color="blue"
-                style={{ margin: "auto 10" }}
-              />
-              Pay
             </ButtonComponent>
 
             <ButtonComponent
