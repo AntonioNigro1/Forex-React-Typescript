@@ -110,45 +110,6 @@ export const exchange: ExpressMiddleware<Req, Res> = async (req, res) => {
 
 };
 
-export const pay: ExpressMiddleware<Req, Res> = async (req, res) => {
-  const { sender_id, receiver_id, date, usd, gbp } = req.body;
-  const exchange = 0;
-  try {
-    await TransDB.create({
-      sender_id,
-      receiver_id,
-      exchange,
-      date: Date.now(),
-      usd,
-      gbp,
-    });
-    let reply_receiver = await UserDB.findByIdAndUpdate(
-      { _id: receiver_id },
-      { $inc: { usd: usd, gbp: gbp } },
-      { returnDocument: "after" }
-    );
-    let reply_sender = await UserDB.findByIdAndUpdate(
-      { _id: sender_id },
-      { $dec: { usd: usd, gbp: gbp } },
-      { returnDocument: "after" }
-    );
-
-    const message: string =
-      "Payment made successefully, payed: " +
-      (usd | gbp) +
-      " to: " +
-      reply_receiver?.name;
-    res.status(200).json({ status: "200", message: message });
-  } catch (err) {
-    const message: string = err;
-    res.status(401).json({
-      status: "401",
-      error: "Something went wrong, check your credencials",
-      message: "Db error: " + message,
-    });
-  }
-};
-
 export const history: ExpressMiddleware<Req, Res> = async (req, res) => {
   const { sender_id } = req.body;
 
@@ -156,7 +117,6 @@ export const history: ExpressMiddleware<Req, Res> = async (req, res) => {
     const reply = await TransDB.find({ sender_id: sender_id }).sort({
       date: "desc",
     });
-    console.log(reply);
     res.status(200).json({ status: "200", data: reply });
   } catch (error) {
     res.status(401).json({

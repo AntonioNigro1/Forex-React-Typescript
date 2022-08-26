@@ -1,5 +1,4 @@
 import { convert }from "exchange-rates-api";
-import Webs from"ws";
 
 function onError(ws, err) {
   console.error(`onError: ${err.message}`);

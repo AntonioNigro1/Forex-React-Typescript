@@ -2,7 +2,8 @@
   "scripts": {
     "build": "rimraf ./build && tsc",
     "dev": "nodemon",
-    "start": "npm run build && node build/index.mjs"
+    "start": "npm run build && node build/index.mjs",
+    "test": "ENV_FILE=./config/.env.test jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -20,10 +21,15 @@
     "ws": "^8.8.1"
   },
   "devDependencies": {
+    "@types/jest": "^28.1.8",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^18.7.6",
-    "rimraf": "^3.0.2"
+    "jest": "^29.0.0",
+    "rimraf": "^3.0.2",
+    "superagent": "^8.0.0",
+    "supertest": "^6.2.4",
+    "ts-jest": "^28.0.8"
   },
   "type": "module"
 }

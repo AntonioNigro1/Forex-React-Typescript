@@ -4,7 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import http from "http";
-import {WebSocketServer} from "ws";
+import { WebSocketServer } from "ws";
 
 import UserRouter from "./route/UserRouter.js";
 import TransactionRouter from "./route/TransactionRouter.js";
@@ -27,8 +27,9 @@ app.use("/", TransactionRouter);
 
 const server = http.createServer(app);
 
-const wss = new WebSocketServer({port: 9001});
+//const wss = new WebSocketServer({port: 9001});
+//wss.on("connection", onConnection);
 
-wss.on("connection", onConnection);
+//server.listen(9000);
 
-server.listen(9000);
+export default server;
