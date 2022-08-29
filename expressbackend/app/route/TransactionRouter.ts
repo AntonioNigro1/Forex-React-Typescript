@@ -6,7 +6,7 @@ router.post("/deposit", deposit );
 router.post("/withdraw", withdraw );
 router.post("/history", history);
 router.post("/exchange", exchange);
-router.post("/pay", );
+
 
 
 export default router;

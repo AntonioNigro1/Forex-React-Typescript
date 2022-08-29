@@ -30,6 +30,6 @@ const server = http.createServer(app);
 //const wss = new WebSocketServer({port: 9001});
 //wss.on("connection", onConnection);
 
-//server.listen(9000);
+server.listen(9000);
 
-export default server;
+// export default server;
